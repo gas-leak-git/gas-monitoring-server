@@ -11,7 +11,11 @@ app.use(express.json());
 
 const email = process.env.EMAIL;
 const emailPassword = process.env.EMAIL_PASS;
-const receiverEmail = "marasiganjane88@gmail.com";
+const receiverEmail = [
+  "marasiganjane88@gmail.com",
+  "cpedev2@gmail.com",
+  "janemarasigan8@gmail.com",
+];
 
 console.log("Email:", email);
 console.log("Receiver Email:", receiverEmail);
