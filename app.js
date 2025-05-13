@@ -11,22 +11,22 @@ app.use(express.json());
 
 const email = process.env.EMAIL;
 const emailPassword = process.env.EMAIL_PASS;
-const receiverEmail = process.env.RECEIVER_EMAIL;
+const receiverEmail = "marasiganjane88@gmail.com";
 
 console.log("Email:", email);
 console.log("Receiver Email:", receiverEmail);
 console.log("Email Password:", emailPassword);
 
 const transporter = nodemailer.createTransport({
-	service: "gmail",
-	auth: {
-		user: email,
-		pass: emailPassword,
-	},
+  service: "gmail",
+  auth: {
+    user: email,
+    pass: emailPassword,
+  },
 });
 
 const weightTemplate = () => {
-	return `
+  return `
    <!DOCTYPE html>
 <html
 	xmlns:v="urn:schemas-microsoft-com:vml"
@@ -101,7 +101,7 @@ const weightTemplate = () => {
 };
 
 const gasLeakTemplate = () => {
-	return `
+  return `
    <!DOCTYPE html>
 <html>
 <head>
@@ -170,45 +170,45 @@ const gasLeakTemplate = () => {
 };
 
 app.get("/", (req, res) => {
-	return res.send(
-		"Server is running! Use /api/weight-warning or /api/gas-leak-warning to send test emails."
-	);
+  return res.send(
+    "Server is running! Use /api/weight-warning or /api/gas-leak-warning to send test emails."
+  );
 });
 
 app.get("/api/weight-warning", async (req, res) => {
-	const mailOptions = {
-		from: `"Gas Monitor" ${email}`,
-		to: receiverEmail,
-		subject: "🚨 Warning",
-		html: weightTemplate(),
-	};
+  const mailOptions = {
+    from: `"Gas Monitor" ${email}`,
+    to: receiverEmail,
+    subject: "🚨 Warning",
+    html: weightTemplate(),
+  };
 
-	try {
-		await transporter.sendMail(mailOptions);
-		res.status(200).json({ message: "Email sent successfully" });
-	} catch (err) {
-		console.error("Error sending email:", err);
-		res.status(500).json({ error: "Failed to send email" });
-	}
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: "Email sent successfully" });
+  } catch (err) {
+    console.error("Error sending email:", err);
+    res.status(500).json({ error: "Failed to send email" });
+  }
 });
 
 app.get("/api/gas-leak-warning", async (req, res) => {
-	const mailOptions = {
-		from: `"Gas Monitor" ${email}`,
-		to: receiverEmail,
-		subject: "🚨 Warning",
-		html: gasLeakTemplate(),
-	};
+  const mailOptions = {
+    from: `"Gas Monitor" ${email}`,
+    to: receiverEmail,
+    subject: "🚨 Warning",
+    html: gasLeakTemplate(),
+  };
 
-	try {
-		await transporter.sendMail(mailOptions);
-		res.status(200).json({ message: "Email sent successfully" });
-	} catch (err) {
-		console.error("Error sending email:", err);
-		res.status(500).json({ error: "Failed to send email" });
-	}
+  try {
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: "Email sent successfully" });
+  } catch (err) {
+    console.error("Error sending email:", err);
+    res.status(500).json({ error: "Failed to send email" });
+  }
 });
 
 app.listen(PORT, () => {
-	console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
